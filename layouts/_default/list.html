@@ -1,0 +1,31 @@
+{{ partial "header.html" . }}
+
+{{ if eq .Kind "section" }}
+    {{ .Content }}
+    {{ if .Translations }}
+        {{ range .Translations }}
+            <hr class="section-translation-divider" />
+            <section class="section-translation">
+                <h2>{{ if eq .Lang "vi" }}Tiếng Việt{{ else if eq .Lang "en" }}English{{ else }}{{ .LanguageName }}{{ end }}</h2>
+                {{ .Content }}
+            </section>
+        {{ end }}
+    {{ end }}
+{{ end }}
+
+{{ if or (eq .Kind "taxonomy") (eq .Kind "taxonomyTerm") }}
+<ul>
+    {{ range .Pages }}
+        <li><a href="{{.RelPermalink}}">{{.Title}}</a></li>
+    {{ end }}
+</ul>
+{{ end }}
+
+<footer class=" footline" >
+    {{with .Params.LastModifierDisplayName}}
+        <i class='fas fa-user'></i> <a href="mailto:{{ $.Params.LastModifierEmail }}">{{ . }}</a> {{with $.Date}} <i class='fas fa-calendar'></i> {{ .Format "02/01/2006" }}{{end}}
+        </div>
+    {{end}}
+</footer>
+
+{{ partial "footer.html" . }}
